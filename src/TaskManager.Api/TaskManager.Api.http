@@ -1,0 +1,59 @@
+@baseUrl = http://localhost:5000
+@taskId = 00000000-0000-0000-0000-000000000000
+
+### Health check
+GET {{baseUrl}}/health
+
+### Criar tarefa (copie o "id" da resposta para @taskId)
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+X-Correlation-Id: demo-123
+
+{
+  "title": "Preparar apresentação da sprint",
+  "description": "Consolidar métricas e principais entregas do time",
+  "dueDate": "2026-12-31",
+  "status": "Pending"
+}
+
+### Criar tarefa inválida -> 400 com erros por campo
+POST {{baseUrl}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "",
+  "dueDate": "2000-01-01",
+  "status": "Pending"
+}
+
+### Listar (paginado)
+GET {{baseUrl}}/api/tasks?page=1&pageSize=10
+
+### Filtrar por status
+GET {{baseUrl}}/api/tasks?status=Pending
+
+### Filtrar por intervalo de vencimento
+GET {{baseUrl}}/api/tasks?dueDateFrom=2026-12-01&dueDateTo=2026-12-31
+
+### Ordenar pelas mais recentes
+GET {{baseUrl}}/api/tasks?sortBy=CreatedAt&sortDirection=Desc
+
+### Buscar por texto
+GET {{baseUrl}}/api/tasks?search=apresentação
+
+### Obter por id
+GET {{baseUrl}}/api/tasks/{{taskId}}
+
+### Atualizar
+PUT {{baseUrl}}/api/tasks/{{taskId}}
+Content-Type: application/json
+
+{
+  "title": "Preparar apresentação da sprint",
+  "description": "Versão revisada com o PO",
+  "dueDate": "2026-12-31",
+  "status": "Completed"
+}
+
+### Excluir
+DELETE {{baseUrl}}/api/tasks/{{taskId}}
