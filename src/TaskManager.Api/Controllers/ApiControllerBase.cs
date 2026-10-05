@@ -5,7 +5,6 @@ using TaskManager.Application.Common.Results;
 namespace TaskManager.Api.Controllers;
 
 [ApiController]
-[Produces("application/json")]
 public abstract class ApiControllerBase : ControllerBase
 {
     private const string ErrorCodeKey = "errorCode";
